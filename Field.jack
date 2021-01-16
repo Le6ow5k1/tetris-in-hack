@@ -1,0 +1,33 @@
+class Field {
+  field int hight;
+
+  function int minX() {
+    return 200;
+  }
+
+  function int maxX() {
+    return Field.minX() + (15 * Shape.pixelsInSquare());
+  }
+
+  function int minY() {
+    return 10;
+  }
+
+  function int maxY() {
+    return Field.minY() + (20 * Shape.pixelsInSquare());
+  }
+
+  function void draw() {
+    do Screen.setColor(true);
+    do Screen.drawLine(Field.minX() - 1, Field.minY() - 1, Field.maxX() + 1, Field.minY() - 1); // top line
+    do Screen.drawLine(Field.maxX() + 1, Field.minY() - 1, Field.maxX() + 1, Field.maxY() + 1); // right line
+    do Screen.drawLine(Field.maxX() + 1, Field.maxY() + 1, Field.minX() - 1, Field.maxY() + 1); // bottom line
+    do Screen.drawLine(Field.minX() - 1, Field.maxY() + 1, Field.minX() - 1, Field.minY() - 1); // left line
+
+    return;
+  }
+
+  function int blockRespawnX() {
+    return Field.minX() + (7 * Shape.pixelsInSquare());
+  }
+}

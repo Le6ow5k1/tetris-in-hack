@@ -1,0 +1,134 @@
+class Shape {
+  field int num;
+  field int rotation;
+  /**
+    Array of strings (4 by 4) representing a shape of the block
+
+    For example vertical T shape
+    [
+     "wwww",
+     "wwbw",
+     "wbbw",
+     "wwbw"
+    ]
+  */
+  field Array representation;
+
+  constructor Shape new(int shapeNum, int rotation) {
+    let num = shapeNum;
+    let rotation = rotation;
+
+    if (shapeNum = 1) {
+      let representation = Shape.t_shape_representation(rotation);
+    }
+
+    return this;
+  }
+
+  method int num() {
+    return num;
+  }
+
+  method int rotation() {
+    return rotation;
+  }
+
+  method boolean needDrawSquare(int rowIdx, int colIdx) {
+    var String row;
+    var char square;
+    var boolean result;
+
+    let row = representation[rowIdx];
+    let square = row.charAt(colIdx);
+
+    if (square = 98) { // 98 == 'b'
+      let result = true;
+    }
+    if (~(square = 98)) {
+      let result = false;
+    }
+
+    return result;
+  }
+
+  method Array representation() {
+    return representation;
+  }
+
+  method void dispose() {
+    do Memory.deAlloc(this);
+
+    return;
+  }
+
+  function int pixelsInSquare() {
+    return 12;
+  }
+
+  function int maxSquares() {
+    return 4;
+  }
+
+  function Array t_shape_representation(int rotation) {
+    var Array result;
+
+    if (rotation = 0) {
+      let result = Shape.t_shape0();
+    }
+    if (rotation = 90) {
+      let result = Shape.t_shape90();
+    }
+    if (rotation = 180) {
+      let result = Shape.t_shape180();
+    }
+    if (rotation = 270) {
+      let result = Shape.t_shape270();
+    }
+
+    return result;
+  }
+
+  function Array t_shape0() {
+    var Array shape;
+    let shape = Array.new(4);
+    let shape[0] = "wwww";
+    let shape[1] = "wwbw";
+    let shape[2] = "wbbw";
+    let shape[3] = "wwbw";
+
+    return shape;
+  }
+
+  function Array t_shape90() {
+    var Array shape;
+    let shape = Array.new(4);
+    let shape[0] = "wwww";
+    let shape[1] = "wwbw";
+    let shape[2] = "wbbb";
+    let shape[3] = "wwww";
+
+    return shape;
+  }
+
+  function Array t_shape180() {
+    var Array shape;
+    let shape = Array.new(4);
+    let shape[0] = "wwww";
+    let shape[1] = "wwbw";
+    let shape[2] = "wwbb";
+    let shape[3] = "wwbw";
+
+    return shape;
+  }
+
+  function Array t_shape270() {
+    var Array shape;
+    let shape = Array.new(4);
+    let shape[0] = "wwww";
+    let shape[1] = "wwww";
+    let shape[2] = "wbbb";
+    let shape[3] = "wwbw";
+
+    return shape;
+  }
+}

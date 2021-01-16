@@ -1,0 +1,102 @@
+class Block {
+  field Shape shape;
+  field int x, y;
+  field int shapeNum, currentRotation;
+
+  constructor Block new(Shape shapeIn, int xIn, int yIn) {
+    let shape = shapeIn;
+    let x = xIn;
+    let y = yIn;
+
+    let shapeNum = shapeIn.num();
+    let currentRotation = shapeIn.rotation();
+
+    return this;
+  }
+
+  method void draw(boolean color) {
+    var int pixelsInSquare, maxSquares, rowIdx, colIdx;
+    var String row;
+    var char drawSquare;
+    var int drawX, drawY;
+
+    let rowIdx = 0;
+
+    while (rowIdx < Shape.maxSquares()) {
+      let colIdx = 0;
+
+      while (colIdx < Shape.maxSquares()) {
+        if (shape.needDrawSquare(rowIdx, colIdx)) {
+          let drawX = x + (Shape.pixelsInSquare() * colIdx);
+          let drawY = y + (Shape.pixelsInSquare() * rowIdx);
+
+          do Screen.setColor(color);
+          do Screen.drawRectangle(drawX, drawY, drawX + Shape.pixelsInSquare(), drawY + Shape.pixelsInSquare());
+        }
+
+        let colIdx = colIdx + 1;
+      }
+
+      let rowIdx = rowIdx + 1;
+    }
+
+    return;
+  }
+
+  method void redraw() {
+    do draw(false);
+    do draw(true);
+
+    return;
+  }
+
+  method void moveDown(int limit) {
+    var int newY;
+
+    let newY = y + Shape.pixelsInSquare();
+    if (newY < limit) {
+      let y = newY;
+    }
+
+    return;
+  }
+
+  method void moveLeft(int limit) {
+    var int newX;
+
+    let newX = x - Shape.pixelsInSquare();
+    if (newX > limit) {
+      let x = newX;
+    }
+
+    return;
+  }
+
+  method void moveRight(int limit) {
+    var int newX;
+
+    let newX = x + Shape.pixelsInSquare();
+    if (newX < limit) {
+      let x = newX;
+    }
+
+    return;
+  }
+
+  method void rotate() {
+    var int rotation;
+
+    if (currentRotation = 270) {
+      let rotation = 0;
+    }
+    if (~(currentRotation = 270)) {
+      let rotation = currentRotation + 90;
+    }
+    let currentRotation = rotation;
+
+    do shape.dispose();
+    let shape = Shape.new(shapeNum, currentRotation);
+
+    return;
+  }
+}

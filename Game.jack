@@ -1,0 +1,77 @@
+class Game {
+  field int frameMs;
+  field int tact;
+  field Block fallingBlock;
+  field int blockDirection;
+
+  constructor Game new(int frameMsIn) {
+    let frameMs = frameMsIn;
+    let tact = 1;
+    let fallingBlock = Block.new(Shape.new(1, 0), Field.blockRespawnX(), Field.minY());
+    let blockDirection = 0;
+    do Field.draw();
+
+    return this;
+  }
+
+  method void run() {
+    var char key;
+    var boolean exit;
+    let exit = false;
+
+    do fallingBlock.draw(true);
+
+    while (~exit) {
+      let blockDirection = 0;
+
+      while (key = 0) {
+        let key = Keyboard.keyPressed();
+        if (tact = 2) {
+          let tact = 1;
+          do Game.makeBlockFall(fallingBlock);
+        }
+        do Sys.wait(frameMs);
+      }
+
+      if (key = 81)  { let exit = true; }          // q key
+      if (key = 131) { let blockDirection = 1; }   // up arrow
+      if (key = 133) { let blockDirection = 2; }   // down arrow
+      if (key = 130) { let blockDirection = 3; }   // left arrow
+      if (key = 132) { let blockDirection = 4; }   // right arrow
+
+      while (~(key = 0)) {
+        let key = Keyboard.keyPressed();
+        do Game.makeBlockMove(fallingBlock, blockDirection);
+        do Sys.wait(frameMs);
+      }
+      let tact = tact + 1;
+    }
+
+    return;
+  }
+
+  function void moveBlock(Block block, int direction) {
+    if (direction = 1) { do block.rotate(); }
+    if (direction = 2) { do block.moveDown(Field.maxY()); }
+    if (direction = 3) { do block.moveLeft(Field.minX()); }
+    if (direction = 4) { do block.moveRight(Field.maxX()); }
+
+    return;
+  }
+
+function void makeBlockFall(Block block) {
+    do block.draw(false);
+    do block.moveDown(Field.maxY());
+    do block.draw(true);
+
+    return;
+  }
+
+  function void makeBlockMove(Block block, int direction) {
+    do block.draw(false);
+    do Game.moveBlock(block, direction);
+    do block.draw(true);
+
+    return;
+  }
+}
