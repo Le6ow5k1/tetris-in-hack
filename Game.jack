@@ -24,27 +24,24 @@ class Game {
     while (~exit) {
       let blockDirection = 0;
 
-      while (key = 0) {
-        let key = Keyboard.keyPressed();
-        if (tact = 2) {
-          let tact = 1;
-          do Game.makeBlockFall(fallingBlock);
-        }
-        do Sys.wait(frameMs);
-      }
-
+      let key = Keyboard.keyPressed();
       if (key = 81)  { let exit = true; }          // q key
       if (key = 131) { let blockDirection = 1; }   // up arrow
       if (key = 133) { let blockDirection = 2; }   // down arrow
       if (key = 130) { let blockDirection = 3; }   // left arrow
       if (key = 132) { let blockDirection = 4; }   // right arrow
 
-      while (~(key = 0)) {
-        let key = Keyboard.keyPressed();
-        do Game.makeBlockMove(fallingBlock, blockDirection);
-        do Sys.wait(frameMs);
+      if (tact = 8) {
+      do Game.makeBlockMove(fallingBlock, blockDirection);
+        do Game.makeBlockFall(fallingBlock);
+        let tact = 1;
       }
+      if (~(tact = 8)) {
+        do Game.makeBlockMove(fallingBlock, blockDirection);
+      }
+
       let tact = tact + 1;
+      do Sys.wait(frameMs);
     }
 
     return;
@@ -59,7 +56,7 @@ class Game {
     return;
   }
 
-function void makeBlockFall(Block block) {
+  function void makeBlockFall(Block block) {
     do block.draw(false);
     do block.moveDown();
     do block.draw(true);
