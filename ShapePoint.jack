@@ -1,0 +1,22 @@
+class ShapePoint {
+  field int x, y;
+
+  constructor ShapePoint new(int xIn, int yIn) {
+    let x = xIn * Shape.pixelsInSquare();
+    let y = yIn * Shape.pixelsInSquare();
+
+    return this;
+  }
+
+  method int x() {
+    return x;
+  }
+
+  method int y() {
+    return y;
+  }
+
+  method boolean isEq(int otherX, int otherY) {
+    return ((x = otherX) & (y = otherY));
+  }
+}

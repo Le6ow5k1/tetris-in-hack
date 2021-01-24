@@ -52,16 +52,16 @@ class Game {
 
   function void moveBlock(Block block, int direction) {
     if (direction = 1) { do block.rotate(); }
-    if (direction = 2) { do block.moveDown(Field.maxY()); }
-    if (direction = 3) { do block.moveLeft(Field.minX()); }
-    if (direction = 4) { do block.moveRight(Field.maxX()); }
+    if (direction = 2) { do block.moveDown(); }
+    if (direction = 3) { do block.moveLeft(); }
+    if (direction = 4) { do block.moveRight(); }
 
     return;
   }
 
 function void makeBlockFall(Block block) {
     do block.draw(false);
-    do block.moveDown(Field.maxY());
+    do block.moveDown();
     do block.draw(true);
 
     return;

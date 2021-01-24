@@ -1,0 +1,35 @@
+class Polygon {
+  field Array points;
+  field int numberOfPoints;
+
+  constructor Polygon new(Array pointsIn, int numberOfPointsIn) {
+    let points = pointsIn;
+    let numberOfPoints = numberOfPointsIn;
+
+    return this;
+  }
+
+  method boolean touchesLine(int lineX1, int lineY1, int lineX2, int lineY2) {
+    var int i;
+    var ShapePoint currentPoint;
+    var boolean result;
+
+    let result = false;
+    let i = 0;
+
+    while ((~result) & (i < numberOfPoints)) {
+      let currentPoint = points[i];
+
+      if (lineX1 = lineX2) {
+        let result = (currentPoint.x() = lineX1) & ((currentPoint.y() > lineY1) | (currentPoint.y() = lineY1)) & ((currentPoint.y() < lineY2) | (currentPoint.y() = lineY2));
+      }
+      if (~(lineX1 = lineX2)) {
+        let result = (currentPoint.y() = lineY1) & ((currentPoint.x() > lineX1) | (currentPoint.x() = lineX1)) & ((currentPoint.x() < lineX2) | (currentPoint.x() = lineX2));
+      }
+
+      let i = i + 1;
+    }
+
+    return result;
+  }
+}

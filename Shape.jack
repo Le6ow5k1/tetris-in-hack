@@ -2,24 +2,26 @@ class Shape {
   field int num;
   field int rotation;
   /**
-    Array of strings (4 by 4) representing a shape of the block
+    Array of strings representing a shape of the block
 
     For example vertical T shape
     [
-     "wwww",
-     "wwbw",
-     "wbbw",
-     "wwbw"
+     "wb",
+     "bb",
+     "wb"
     ]
   */
   field Array representation;
+  field int height, width;
+  field Array coords;
+  field Polygon polygon;
 
   constructor Shape new(int shapeNum, int rotation) {
     let num = shapeNum;
     let rotation = rotation;
 
     if (shapeNum = 1) {
-      let representation = Shape.t_shape_representation(rotation);
+      do set_t_shape_representation(rotation);
     }
 
     return this;
@@ -65,69 +67,125 @@ class Shape {
     return 12;
   }
 
-  function int maxSquares() {
-    return 4;
+  method int heightSquares() {
+    return height;
   }
 
-  function Array t_shape_representation(int rotation) {
-    var Array result;
+  method int widthSquares() {
+    return width;
+  }
 
+  method boolean touchesLine(int lineX1, int lineY1, int lineX2, int lineY2) {
+    return polygon.touchesLine(lineX1, lineY1, lineX2, lineY2);
+  }
+
+  method void set_t_shape_representation(int rotation) {
     if (rotation = 0) {
-      let result = Shape.t_shape0();
+      let representation = Shape.t_shape0();
+      let height = 3;
+      let width = 2;
+
+      let coords = Array.new(8);
+      let coords[0] = ShapePoint.new(1, 0);
+      let coords[1] = ShapePoint.new(2, 0);
+      let coords[2] = ShapePoint.new(2, 3);
+      let coords[3] = ShapePoint.new(1, 3);
+      let coords[4] = ShapePoint.new(1, 2);
+      let coords[5] = ShapePoint.new(0, 2);
+      let coords[6] = ShapePoint.new(0, 1);
+      let coords[7] = ShapePoint.new(1, 1);
+
+      let polygon = Polygon.new(coords, 8);
     }
     if (rotation = 90) {
-      let result = Shape.t_shape90();
+      let representation = Shape.t_shape90();
+      let height = 2;
+      let width = 3;
+
+      let coords = Array.new(8);
+      let coords[0] = ShapePoint.new(1, 0);
+      let coords[1] = ShapePoint.new(2, 0);
+      let coords[2] = ShapePoint.new(2, 1);
+      let coords[3] = ShapePoint.new(3, 1);
+      let coords[4] = ShapePoint.new(3, 2);
+      let coords[5] = ShapePoint.new(0, 2);
+      let coords[6] = ShapePoint.new(0, 1);
+      let coords[7] = ShapePoint.new(1, 1);
+
+      let polygon = Polygon.new(coords, 8);
     }
     if (rotation = 180) {
-      let result = Shape.t_shape180();
+      let representation = Shape.t_shape180();
+      let height = 3;
+      let width = 2;
+
+      let coords = Array.new(8);
+      let coords[0] = ShapePoint.new(0, 0);
+      let coords[1] = ShapePoint.new(1, 0);
+      let coords[2] = ShapePoint.new(1, 1);
+      let coords[3] = ShapePoint.new(2, 1);
+      let coords[4] = ShapePoint.new(2, 2);
+      let coords[5] = ShapePoint.new(1, 2);
+      let coords[6] = ShapePoint.new(1, 3);
+      let coords[7] = ShapePoint.new(0, 3);
+
+      let polygon = Polygon.new(coords, 8);
     }
     if (rotation = 270) {
-      let result = Shape.t_shape270();
+      let representation = Shape.t_shape270();
+      let height = 2;
+      let width = 3;
+
+      let coords = Array.new(8);
+      let coords[0] = ShapePoint.new(0, 0);
+      let coords[1] = ShapePoint.new(3, 0);
+      let coords[2] = ShapePoint.new(3, 1);
+      let coords[3] = ShapePoint.new(2, 1);
+      let coords[4] = ShapePoint.new(2, 2);
+      let coords[5] = ShapePoint.new(1, 2);
+      let coords[6] = ShapePoint.new(1, 1);
+      let coords[7] = ShapePoint.new(0, 1);
+
+      let polygon = Polygon.new(coords, 8);
     }
 
-    return result;
+    return;
   }
 
   function Array t_shape0() {
     var Array shape;
-    let shape = Array.new(4);
-    let shape[0] = "wwww";
-    let shape[1] = "wwbw";
-    let shape[2] = "wbbw";
-    let shape[3] = "wwbw";
+    let shape = Array.new(3);
+    let shape[0] = "wb";
+    let shape[1] = "bb";
+    let shape[2] = "wb";
 
     return shape;
   }
 
   function Array t_shape90() {
     var Array shape;
-    let shape = Array.new(4);
-    let shape[0] = "wwww";
-    let shape[1] = "wwbw";
-    let shape[2] = "wbbb";
-    let shape[3] = "wwww";
+    let shape = Array.new(2);
+    let shape[0] = "wbw";
+    let shape[1] = "bbb";
 
     return shape;
   }
 
   function Array t_shape180() {
     var Array shape;
-    let shape = Array.new(4);
-    let shape[0] = "wwww";
-    let shape[1] = "wwbw";
-    let shape[2] = "wwbb";
-    let shape[3] = "wwbw";
+    let shape = Array.new(3);
+    let shape[0] = "bw";
+    let shape[1] = "bb";
+    let shape[2] = "bw";
 
     return shape;
   }
 
   function Array t_shape270() {
     var Array shape;
-    let shape = Array.new(4);
-    let shape[0] = "wwww";
-    let shape[1] = "wwww";
-    let shape[2] = "wbbb";
-    let shape[3] = "wwbw";
+    let shape = Array.new(2);
+    let shape[0] = "bbb";
+    let shape[1] = "wbw";
 
     return shape;
   }
