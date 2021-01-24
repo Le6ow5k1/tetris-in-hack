@@ -35,9 +35,13 @@ class Game {
       do Game.makeBlockMove(fallingBlock, blockDirection);
         do Game.makeBlockFall(fallingBlock);
         let tact = 1;
+
+        do newFallingBlockIfNeeded();
       }
       if (~(tact = 8)) {
         do Game.makeBlockMove(fallingBlock, blockDirection);
+
+        do newFallingBlockIfNeeded();
       }
 
       let tact = tact + 1;
@@ -45,6 +49,19 @@ class Game {
     }
 
     return;
+  }
+
+  method void newFallingBlockIfNeeded() {
+    if (fallingBlock.reachedBottom()) {
+      let fallingBlock = Game.newBlock();
+      do fallingBlock.draw(true);
+    }
+
+    return;
+  }
+
+  function Block newBlock() {
+    return Block.new(Shape.new(1, 0), Field.blockRespawnX(), Field.minY());
   }
 
   function void moveBlock(Block block, int direction) {

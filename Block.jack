@@ -2,16 +2,22 @@ class Block {
   field Shape shape;
   field int x, y;
   field int shapeNum, currentRotation;
+  field boolean reachedBottom;
 
   constructor Block new(Shape shapeIn, int xIn, int yIn) {
     let shape = shapeIn;
     let x = xIn;
     let y = yIn;
+    let reachedBottom = false;
 
     let shapeNum = shapeIn.num();
     let currentRotation = shapeIn.rotation();
 
     return this;
+  }
+
+  method boolean reachedBottom() {
+    return reachedBottom;
   }
 
   method void draw(boolean color) {
@@ -51,6 +57,7 @@ class Block {
 
     if (touchesBottomLine()) {
       let y = oldY;
+      let reachedBottom = true;
     }
 
     return;
@@ -100,6 +107,10 @@ class Block {
 
     let shapeOutOfBounds = outOfBounds();
     if (shapeOutOfBounds) {
+      if (touchesBottomLine()) {
+        let reachedBottom = true;
+      }
+
       let shape = originalShape;
       do rotatedShape.dispose();
     }
