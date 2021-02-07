@@ -1,0 +1,36 @@
+class LayingBlocks {
+  field int underlyingSize;
+  field Array underlyingArray;
+  field int size;
+
+  constructor LayingBlocks new(int underlyingSizeIn) {
+    let underlyingSize = underlyingSizeIn;
+    let underlyingArray = Array.new(underlyingSize);
+    let size = 0;
+
+    return this;
+  }
+
+  method void push(Block block) {
+    let underlyingArray[size] = block;
+    let size = size + 1;
+
+    return;
+  }
+
+  method boolean collides(Block block) {
+    var int i;
+    var Block currBlock;
+    var boolean result;
+
+    let i = 0;
+    while((~result) & (i < size)) {
+      let currBlock = underlyingArray[i];
+      let result = block.collides(currBlock);
+
+      let i = i + 1;
+    }
+
+    return result;
+  }
+}

@@ -1,0 +1,60 @@
+class Segments {
+  function boolean covers(ShapePoint point1, ShapePoint point2, ShapePoint otherPoint1, ShapePoint otherPoint2) {
+    var boolean result;
+
+    let result = false;
+
+    if (Segments.isHorizontal(point1, point2) & Segments.isHorizontal(otherPoint1, otherPoint2) & (point1.y() = otherPoint1.y())) {
+      let result = Segments.coversHorizontally(point1, point2, otherPoint1, otherPoint2);
+    }
+    if (Segments.isVertical(point1, point2) & Segments.isVertical(otherPoint1, otherPoint2) & (point1.x() = otherPoint1.x())) {
+      let result = Segments.coversVertically(point1, point2, otherPoint1, otherPoint2);
+    }
+
+    return result;
+  }
+
+  function boolean coversHorizontally(ShapePoint point1, ShapePoint point2, ShapePoint otherPoint1, ShapePoint otherPoint2) {
+    var boolean result;
+
+    if (point1.x() < point2.x()) {
+      if (otherPoint1.x() < otherPoint2.x()) {
+        let result = ((point1.x() < otherPoint1.x()) | (point1.x() = otherPoint1.x())) & ((point2.x() > otherPoint2.x()) | (point2.x() = otherPoint2.x()));
+      }
+      if (otherPoint1.x() > otherPoint2.x()) {
+        let result = ((point1.x() < otherPoint2.x()) | (point1.x() = otherPoint2.x())) & ((point2.x() > otherPoint1.x()) | (point2.x() = otherPoint1.x()));
+      }
+    }
+    if (point1.x() > point2.x()) {
+      if (otherPoint1.x() < otherPoint2.x()) {
+        let result = ((point2.x() < otherPoint1.x()) | (point2.x() = otherPoint1.x())) & ((point1.x() > otherPoint2.x()) | (point1.x() = otherPoint2.x()));
+      }
+      if (otherPoint1.x() > otherPoint2.x()) {
+        let result = ((point2.x() < otherPoint2.x()) | (point2.x() = otherPoint2.x())) & ((point1.x() > otherPoint1.x()) | (point1.x() = otherPoint1.x()));
+      }
+    }
+
+    return result;
+  }
+
+  function boolean coversVertically(ShapePoint point1, ShapePoint point2, ShapePoint otherPoint1, ShapePoint otherPoint2) {
+    var boolean result;
+
+    if (point1.y() < point2.y()) {
+      let result = ((point1.y() < otherPoint1.y()) | (point1.y() = otherPoint1.y())) & ((point2.y() > otherPoint2.y()) | (point2.y() = otherPoint2.y()));
+    }
+    if (point1.y() > point2.y()) {
+      let result = ((point1.y() > otherPoint1.y()) | (point1.y() = otherPoint1.y())) & ((point2.y() < otherPoint2.y()) | (point2.y() = otherPoint2.y()));
+    }
+
+    return result;
+  }
+
+  function boolean isHorizontal(ShapePoint point1, ShapePoint point2) {
+    return (point1.y() = point2.y());
+  }
+
+  function boolean isVertical(ShapePoint point1, ShapePoint point2) {
+    return (point1.x() = point2.x());
+  }
+}

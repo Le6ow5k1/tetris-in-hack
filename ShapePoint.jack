@@ -16,7 +16,23 @@ class ShapePoint {
     return y;
   }
 
-  method boolean isEq(int otherX, int otherY) {
-    return ((x = otherX) & (y = otherY));
+  method boolean onHorizontalLine(ShapePoint other) {
+    return (y = other.y());
+  }
+
+  method void print() {
+    do Output.printString("x:");
+    do Output.printInt(x);
+    do Output.printString(",");
+    do Output.printString("y:");
+    do Output.printInt(y);
+
+    return;
+  }
+
+  method void dispose() {
+    do Memory.deAlloc(this);
+
+    return;
   }
 }

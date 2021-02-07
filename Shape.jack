@@ -35,6 +35,10 @@ class Shape {
     return rotation;
   }
 
+  method Polygon polygon() {
+    return polygon;
+  }
+
   method boolean needDrawSquare(int rowIdx, int colIdx) {
     var String row;
     var char square;
@@ -73,6 +77,10 @@ class Shape {
 
   method int widthSquares() {
     return width;
+  }
+
+  method boolean collides(Shape otherShape, int otherXCorrection, int otherYCorrection, int xCorrection, int yCorrection) {
+    return polygon.collides(otherShape.polygon(), otherXCorrection, otherYCorrection, xCorrection, yCorrection);
   }
 
   method boolean touchesLine(int lineX1, int lineY1, int lineX2, int lineY2) {

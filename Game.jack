@@ -3,12 +3,14 @@ class Game {
   field int tact;
   field Block fallingBlock;
   field int blockDirection;
+  field LayingBlocks layingBlocks;
 
   constructor Game new(int frameMsIn) {
     let frameMs = frameMsIn;
     let tact = 1;
     let fallingBlock = Block.new(Shape.new(1, 0), Field.blockRespawnX(), Field.minY());
     let blockDirection = 0;
+    let layingBlocks = LayingBlocks.new(50);
     do Field.draw();
 
     return this;
@@ -32,7 +34,7 @@ class Game {
       if (key = 132) { let blockDirection = 4; }   // right arrow
 
       if (tact = 8) {
-      do Game.makeBlockMove(fallingBlock, blockDirection);
+        do Game.makeBlockMove(fallingBlock, blockDirection);
         do Game.makeBlockFall(fallingBlock);
         let tact = 1;
 
@@ -52,7 +54,10 @@ class Game {
   }
 
   method void newFallingBlockIfNeeded() {
-    if (fallingBlock.reachedBottom()) {
+    var boolean collides;
+
+    if (fallingBlock.reachedBottom() | layingBlocks.collides(fallingBlock)) {
+      do layingBlocks.push(fallingBlock);
       let fallingBlock = Game.newBlock();
       do fallingBlock.draw(true);
     }

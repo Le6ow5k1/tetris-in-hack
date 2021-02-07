@@ -9,6 +9,68 @@ class Polygon {
     return this;
   }
 
+  method int numberOfPoints() {
+    return numberOfPoints;
+  }
+
+  method Array points() {
+    return points;
+  }
+
+  method boolean collides(Polygon otherPolygon, int otherXCorrection, int otherYCorrection, int xCorrection, int yCorrection) {
+    var int i, j, current1X, current1Y, current2X, current2Y, other1X, other1Y, other2X, other2Y;
+    var ShapePoint currentPoint1, currentPoint2, otherPoint1, otherPoint2;
+    var Array otherPoints;
+    var boolean currentCovers, otherCovers, result;
+
+    let result = false;
+    let i = 0;
+
+    while ((~result) & (i < numberOfPoints)) {
+      let currentPoint1 = points[i];
+      let currentPoint2 = points[i + 1];
+
+      let current1X = currentPoint1.x() + xCorrection;
+      let current1Y = currentPoint1.y() + yCorrection;
+      let current2X = currentPoint2.x() + xCorrection;
+      let current2Y = currentPoint2.y() + yCorrection;
+
+      let currentPoint1 = Point.new(current1X, current1Y);
+      let currentPoint2 = Point.new(current2X, current2Y);
+
+      let j = 0;
+      while((~result) & (j < otherPolygon.numberOfPoints())) {
+        let otherPoints = otherPolygon.points();
+        let otherPoint1 = otherPoints[j];
+        let otherPoint2 = otherPoints[j + 1];
+
+        let other1X = otherPoint1.x() + otherXCorrection;
+        let other1Y = otherPoint1.y() + otherYCorrection;
+        let other2X = otherPoint2.x() + otherXCorrection;
+        let other2Y = otherPoint2.y() + otherYCorrection;
+
+        let otherPoint1 = Point.new(other1X, other1Y);
+        let otherPoint2 = Point.new(other2X, other2Y);
+
+        let currentCovers = Segments.covers(currentPoint1, currentPoint2, otherPoint1, otherPoint2);
+        let otherCovers = Segments.covers(otherPoint1, otherPoint2, currentPoint1, currentPoint2);
+        let result = (currentCovers | otherCovers);
+
+        do otherPoint1.dispose();
+        do otherPoint2.dispose();
+
+        let j = j + 2;
+      }
+
+      do currentPoint1.dispose();
+      do currentPoint2.dispose();
+
+      let i = i + 2;
+    }
+
+    return result;
+  }
+
   method boolean touchesLine(int lineX1, int lineY1, int lineX2, int lineY2) {
     var int i;
     var ShapePoint currentPoint;

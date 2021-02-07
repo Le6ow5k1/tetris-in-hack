@@ -20,6 +20,18 @@ class Block {
     return reachedBottom;
   }
 
+  method Shape shape() {
+    return shape;
+  }
+
+  method int x() {
+    return x;
+  }
+
+  method int y() {
+    return y;
+  }
+
   method void draw(boolean color) {
     var int pixelsInSquare, rowIdx, colIdx;
     var String row;
@@ -147,5 +159,9 @@ class Block {
     let relY2 = lineY2 - y;
 
     return shape.touchesLine(relX1, relY1, relX2, relY2);
+  }
+
+  method boolean collides(Block otherBlock) {
+    return shape.collides(otherBlock.shape(), otherBlock.x(), otherBlock.y(), x, y);
   }
 }
